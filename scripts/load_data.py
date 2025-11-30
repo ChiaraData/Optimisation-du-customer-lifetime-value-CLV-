@@ -1,6 +1,6 @@
 import pandas as pd 
 from utils.config import create_db_engine 
-from sqlalchemy import create_engine
+
 
 df = pd.read_excel('data/Online Retail.xlsx')
 
@@ -15,9 +15,8 @@ print(f"Lignes après exclusion des retours/erreurs: {len(df)}")
 
 df['CustomerID'] = df['CustomerID'].astype(str)
 
-
-try :
-    engine = create_engine("mysql+mysqlconnector://root:chiaramasi@localhost/CLV_project")
+try : 
+    engine = create_db_engine()
     df.to_sql(
             name='transactions',   
             con=engine,              
@@ -25,7 +24,6 @@ try :
             index=False,
             chunksize=10000              
         )
-    print("les données ont été transféré avec succès dans la base de donnée SQL")
-
-except : 
-    print("les données n'ont pas été transférés dans la base de données.")
+    print("les données ont été transféré avec succès")
+except:
+    print("les données n'ont pas été transférées dans la base de donnée.")
